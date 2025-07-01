@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: qna_service1
+  output:
+    ansi:
+      enabled: always
