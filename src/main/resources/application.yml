@@ -4,3 +4,71 @@ spring:
   output:
     ansi:
       enabled: always
+  # 데이터베이스 연결 설정 (MariaDB)
+  datasource:
+    # MariaDB 데이터베이스의 JDBC URL입니다.
+    # localhost:3306은 데이터베이스 서버 주소와 포트입니다.
+    # your_database_name은 사용할 데이터베이스 이름으로 변경해주세요.
+    url: jdbc:mariadb://localhost:3306/qna_service1?useUnicode=true&characterEncoding=utf8
+    # 데이터베이스 사용자 이름입니다. 실제 사용자 이름으로 변경해주세요.
+    username: root
+    # 데이터베이스 비밀번호입니다. 실제 비밀번호로 변경해주세요.
+    password:
+    # 사용할 JDBC 드라이버 클래스 이름입니다.
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  # JPA (Java Persistence API) 설정
+  jpa:
+    # Hibernate를 JPA 구현체로 사용합니다.
+    hibernate:
+      # DDL (Data Definition Language) 자동 생성 전략입니다.
+      # none: DDL을 생성하지 않습니다. (운영 환경 권장)
+      # update: 변경된 스키마만 업데이트합니다. (개발 환경 권장)
+      # create: 애플리케이션 시작 시 기존 테이블을 삭제하고 새로 생성합니다. (테스트/초기 개발 시 주의)
+      # create-drop: 애플리케이션 종료 시 테이블을 삭제합니다.
+      ddl-auto: update # 개발 단계에서는 'update'를 사용하고, 운영 환경에서는 'none'을 권장합니다.
+    # JPA 쿼리 실행 시 SQL을 콘솔에 출력할지 여부입니다.
+    show-sql: true
+    # SQL 쿼리를 예쁘게 포맷팅하여 출력할지 여부입니다.
+    properties:
+      hibernate.format_sql: true
+      # MariaDB에 맞는 데이터베이스 방언을 설정합니다.
+      hibernate.dialect: org.hibernate.dialect.MariaDBDialect
+    # 엔티티 필드명을 데이터베이스 컬럼명으로 매핑하는 전략입니다.
+    # SpringPhysicalNamingStrategy: Spring Boot의 기본 전략 (CamelCase -> snake_case)
+    # ImplicitNamingStrategyJpaConventions: JPA 표준 명명 전략
+    # org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl: Hibernate 기본 전략
+    naming:
+      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+
+  # Thymeleaf 템플릿 엔진 설정
+  thymeleaf:
+    # Thymeleaf 템플릿을 활성화할지 여부입니다.
+    enabled: true
+    # 템플릿 파일의 접두사 (경로)입니다.
+    # src/main/resources/templates/ 디렉토리에 템플릿 파일이 위치합니다.
+    prefix: classpath:/templates/
+    # 템플릿 파일의 접미사 (확장자)입니다.
+    suffix: .html
+    # 템플릿 캐시를 사용할지 여부입니다.
+    # 개발 중에는 false로 설정하여 변경 사항이 즉시 반영되도록 하고,
+    # 운영 환경에서는 true로 설정하여 성능을 향상시킵니다.
+    cache: false
+    # 템플릿 인코딩 설정입니다.
+    encoding: UTF-8
+    # 템플릿 모드입니다. HTML5로 설정합니다.
+    mode: HTML5
+
+# 로깅 레벨 설정 추가
+logging:
+  level:
+    # 데이터소스(커넥션 풀) 관련 로그
+    com.zaxxer.hikari: DEBUG
+    # JPA/Hibernate 관련 로그
+    org.hibernate.SQL: DEBUG # 실행되는 모든 SQL 쿼리 로그
+    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE # SQL 파라미터 값 로그
+    org.springframework.jdbc.datasource.DriverManagerDataSource: DEBUG # JDBC 드라이버 매니저 로그
+    # 특정 패키지의 로그 레벨을 DEBUG로 설정하여 더 자세한 정보 확인
+    org.springframework.boot.autoconfigure.jdbc: DEBUG
+    org.springframework.orm.jpa: DEBUG

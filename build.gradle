@@ -31,6 +31,12 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Spring Data JPA를 사용하여 데이터베이스와 상호작용하기 위한 스타터입니다.
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// MariaDB 데이터베이스 드라이버입니다.
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
 }
 
 tasks.named('test') {
